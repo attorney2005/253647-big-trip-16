@@ -2,10 +2,9 @@
  * @param {String} itemContent
  * @returns {String}
  */
-const createPointsListItemTemplate = (itemContent) => (
+export const createPointsListItemTemplate = (itemContent) => (
   `<li class="trip-events__item">
     ${itemContent}
   </li>`
 );
 
-export {createPointsListItemTemplate};
