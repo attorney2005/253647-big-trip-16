@@ -5,10 +5,13 @@ import {createNewPointTemplate} from './view/new-point.js';
 import {createPointTemplate} from './view/point-view.js';
 import {createPointsListItemTemplate} from './view/points-list-item.js';
 import {createPointsListTemplate} from './view/points-list.js';
+import {generatePoint} from './mock/task.js';
 
 import {renderTemplate, RenderPosition} from './render.js';
 
 const POINTS_COUNT = 3;
+const points = Array.from({length:POINTS_COUNT}, generatePoint);
+
 
 const headerElement = document.querySelector('.trip-main__trip-controls');
 const navHeaderElement = headerElement.querySelector('.trip-controls__navigation');
@@ -28,5 +31,5 @@ const eventsElementList = mainElement.querySelector('.trip-events__list');
 
 renderTemplate(eventsElementList, createPointsListItemTemplate(createNewPointTemplate()), RenderPosition.BEFOREEND);
 for (let i = 0; i < POINTS_COUNT; i++) {
-  renderTemplate(eventsElementList, createPointsListItemTemplate(createPointTemplate()), RenderPosition.BEFOREEND);
+  renderTemplate(eventsElementList, createPointsListItemTemplate(createPointTemplate(points[i])), RenderPosition.BEFOREEND);
 }
