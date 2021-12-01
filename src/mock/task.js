@@ -1,5 +1,4 @@
-import flatpickr from 'flatpickr';
-
+import dayjs from 'dayjs';
 // Функция из интернета по генерации случайного числа из диапазона
 // Источник - https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_random
 const getRandomInteger = (a = 0, b = 1) => {
@@ -9,17 +8,7 @@ const getRandomInteger = (a = 0, b = 1) => {
   return Math.floor(lower + Math.random() * (upper - lower + 1));
 };
 
-const generateDestination = () => {
-  const destinations = [
-    'Amsterdam',
-    'Chamonix',
-    'Geneva',
-  ];
-  const randomIndex = getRandomInteger(0, destinations.length - 1);
-  return destinations[randomIndex];
-};
-
-const generatePointTipe = () => {
+const generatePointType = () => {
   const pointTypes = [
     'Taxi',
     'Bus',
@@ -35,33 +24,50 @@ const generatePointTipe = () => {
   return pointTypes[randomIndex];
 };
 
-const generateTravelDateCheckIn = () => {
-  const randomTimeCheckIn = getRandomInteger(1, 31);
-  const config = {
-    enableTime: true,
-    dateFormat: 'Y-m-d H:i',
-  };
-  return flatpickr(randomTimeCheckIn, config);
-};
-
-const generateTravelDateCheckOut = () => {
-  const randomTimeCheckOut = getRandomInteger(1, 31);
-  // if (randomTimeCheckOut < randomTimeCheckIn) {
-  //   return null;
-  const config = {
-    enableTime: true,
-    dateFormat: 'Y-m-d H:i',
-  };
-  return flatpickr(randomTimeCheckOut, config);
-  // }
-};
-
 const priceGeneration = () => getRandomInteger(0, 1000);
+
+
+const generateOffers = () => {
+  const titles = ['Upgrade to a business class', 'Choose the radio station'];
+
+  return {
+    type: generatePointType(),
+    offers: Array.from({ length: getRandomInteger(2, 4) }, (_, i) => ({
+      id: i,
+      title: titles[i],
+      price: priceGeneration()
+    }))
+  };
+};
+
+const generatePictures = () => Array.from({ length: getRandomInteger(1, 3) }, () => ({
+  src: `http://picsum.photos/248/152?r=${getRandomInteger(1, 5)}`,
+  description: 'Chamonix parliament building'
+}));
+
+const generateDestination = () => {
+  const destinations = [
+    'Amsterdam',
+    'Chamonix',
+    'Geneva',
+  ];
+  return {
+    description: 'Chamonix, is a beautiful city, a true asian pearl, with crowded streets.',
+    name: destinations[getRandomInteger(0, 2)],
+    pictures: generatePictures()
+  };
+};
+
+const generateTravelDateCheckIn = () => dayjs(new Date()).format('DD MMMM');
+
+const generateTravelDateCheckOut = () => dayjs(new Date()).add(4, 'day').format('DD MMMM');
 
 export const generatePoint = () => ({
   destination: generateDestination(),
-  pointType: generatePointTipe(),
+  pointType: generatePointType(),
   dateCheckIn: generateTravelDateCheckIn(),
   dateCheckOut: generateTravelDateCheckOut(),
   price: priceGeneration(),
+  offers: generateOffers(),
+  isFavorite: Boolean(getRandomInteger(0, 1)),
 });

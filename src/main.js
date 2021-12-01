@@ -29,7 +29,7 @@ renderTemplate(eventsElementContainer, createPointsListTemplate (), RenderPositi
 
 const eventsElementList = mainElement.querySelector('.trip-events__list');
 
-renderTemplate(eventsElementList, createPointsListItemTemplate(createNewPointTemplate()), RenderPosition.BEFOREEND);
+renderTemplate(eventsElementList, createPointsListItemTemplate(createNewPointTemplate(points[0])), RenderPosition.BEFOREEND);
 for (let i = 0; i < POINTS_COUNT; i++) {
   renderTemplate(eventsElementList, createPointsListItemTemplate(createPointTemplate(points[i])), RenderPosition.BEFOREEND);
 }
