@@ -6,19 +6,21 @@ import {createPointTemplate} from './view/point-view.js';
 import {createPointsListItemTemplate} from './view/points-list-item.js';
 import {createPointsListTemplate} from './view/points-list.js';
 import {generatePoint} from './mock/task.js';
+import {generateFilter} from './mock/filter.js';
 
 import {renderTemplate, RenderPosition} from './render.js';
 
 const POINTS_COUNT = 3;
 const points = Array.from({length:POINTS_COUNT}, generatePoint);
-
+const filters = generateFilter(points);
+console.log(filters);
 
 const headerElement = document.querySelector('.trip-main__trip-controls');
 const navHeaderElement = headerElement.querySelector('.trip-controls__navigation');
 const filtersHeaderElement = headerElement.querySelector('.trip-controls__filters');
 
 renderTemplate(navHeaderElement, createSiteMenuTemplate(), RenderPosition.BEFOREEND);
-renderTemplate(filtersHeaderElement, createFiltersTemplate(), RenderPosition.BEFOREEND);
+renderTemplate(filtersHeaderElement, createFiltersTemplate(filters), RenderPosition.BEFOREEND);
 
 const mainElement = document.querySelector('.page-main');
 const eventsElementContainer = document.querySelector('.trip-events');
