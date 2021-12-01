@@ -13,7 +13,7 @@ import {renderTemplate, RenderPosition} from './render.js';
 const POINTS_COUNT = 3;
 const points = Array.from({length:POINTS_COUNT}, generatePoint);
 const filters = generateFilter(points);
-console.log(filters);
+// console.log(filters);
 
 const headerElement = document.querySelector('.trip-main__trip-controls');
 const navHeaderElement = headerElement.querySelector('.trip-controls__navigation');
