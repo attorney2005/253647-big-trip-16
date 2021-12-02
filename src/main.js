@@ -7,13 +7,15 @@ import {createPointsListItemTemplate} from './view/points-list-item.js';
 import {createPointsListTemplate} from './view/points-list.js';
 import {generatePoint} from './mock/task.js';
 import {generateFilter} from './mock/filter.js';
+import {DEFAULT_VALUE} from './const.js';
+
+
 
 import {renderTemplate, RenderPosition} from './render.js';
 
 const POINTS_COUNT = 3;
 const points = Array.from({length:POINTS_COUNT}, generatePoint);
 const filters = generateFilter(points);
-// console.log(filters);
 
 const headerElement = document.querySelector('.trip-main__trip-controls');
 const navHeaderElement = headerElement.querySelector('.trip-controls__navigation');
@@ -27,7 +29,6 @@ const eventsElementContainer = document.querySelector('.trip-events');
 
 renderTemplate(eventsElementContainer, createSortTemplate(), RenderPosition.BEFOREEND);
 renderTemplate(eventsElementContainer, createPointsListTemplate (), RenderPosition.BEFOREEND);
-
 
 const eventsElementList = mainElement.querySelector('.trip-events__list');
 
