@@ -2,7 +2,7 @@ import SiteMenuView from './view/menu-view.js';
 import {createFiltersTemplate} from './view/filter-view.js';
 import {createSortTemplate} from './view/sort.js';
 import NewPointTemplate from './view/new-point.js';
-import {createPointTemplate} from './view/point-view.js';
+import PointTemplate from './view/point-view.js';
 import PointsListItemView from './view/points-list-item.js';
 import PointsListView from './view/points-list.js';
 import {generatePoint} from './mock/task.js';
@@ -34,5 +34,5 @@ const eventsElementList = mainElement.querySelector('.trip-events__list');
 renderElement(eventsElementList, new NewPointTemplate(points[0]).element, RenderPosition.BEFOREEND);
 
 for (let i = 0; i < POINTS_COUNT; i++) {
-  renderTemplate(eventsElementList, new PointsListItemView.element(createPointTemplate(points[i])), RenderPosition.BEFOREEND);
+  renderElement(eventsElementList, new PointTemplate(points[i]).element, RenderPosition.BEFOREEND);
 }
