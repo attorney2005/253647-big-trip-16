@@ -20,7 +20,7 @@ const headerElement = document.querySelector('.trip-main__trip-controls');
 const navHeaderElement = headerElement.querySelector('.trip-controls__navigation');
 const filtersHeaderElement = headerElement.querySelector('.trip-controls__filters');
 
-renderTemplate(navHeaderElement, new SiteMenuView().element, RenderPosition.BEFOREEND);
+renderElement(navHeaderElement, new SiteMenuView().element, RenderPosition.BEFOREEND);
 renderTemplate(filtersHeaderElement, createFiltersTemplate(filters), RenderPosition.BEFOREEND);
 
 const mainElement = document.querySelector('.page-main');
