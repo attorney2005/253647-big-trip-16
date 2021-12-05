@@ -4,7 +4,7 @@ import {createSortTemplate} from './view/sort.js';
 import {createNewPointTemplate} from './view/new-point.js';
 import {createPointTemplate} from './view/point-view.js';
 import {createPointsListItemTemplate} from './view/points-list-item.js';
-import {createPointsListTemplate} from './view/points-list.js';
+import PointsListView from './view/points-list.js';
 import {generatePoint} from './mock/task.js';
 import {generateFilter} from './mock/filter.js';
 // import {DEFAULT_VALUE} from './const.js';
@@ -27,7 +27,7 @@ const mainElement = document.querySelector('.page-main');
 const eventsElementContainer = document.querySelector('.trip-events');
 
 renderTemplate(eventsElementContainer, createSortTemplate(SORTING[0]), RenderPosition.BEFOREEND);
-renderTemplate(eventsElementContainer, createPointsListTemplate (), RenderPosition.BEFOREEND);
+renderElement(eventsElementContainer, new PointsListView().element, RenderPosition.BEFOREEND);
 
 const eventsElementList = mainElement.querySelector('.trip-events__list');
 
