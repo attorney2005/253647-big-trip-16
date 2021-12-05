@@ -13,19 +13,48 @@ import {render, RenderPosition} from './render.js';
 import {SORTING} from './const';
 
 const POINTS_COUNT = 3;
-const points = Array.from({length:POINTS_COUNT}, generatePoint);
+const points = Array.from({length: POINTS_COUNT}, generatePoint);
 const filters = generateFilter(points);
 
 const headerElement = document.querySelector('.trip-main__trip-controls');
 const navHeaderElement = headerElement.querySelector('.trip-controls__navigation');
 const filtersHeaderElement = headerElement.querySelector('.trip-controls__filters');
 
+
 const renderPoint = (pointListElement, point) => {
   const pointComponent = new PointTemplate(point);
   const pointEditComponent = new NewPointTemplate(point);
 
+  const replacePointToForm = () => {
+    pointListElement.replaceChild(pointEditComponent.element, pointComponent.element);
+  };
+
+  const replaceFormToPoint = () => {
+    pointListElement.replaceChild(pointComponent.element, pointEditComponent.element);
+  };
+
+  const onEscKeyDown = (evt) => {
+    if (evt.key === 'Escape' || evt.key === 'Esc') {
+      evt.preventDefault();
+      replaceFormToPoint();
+      document.removeEventListener('keydown', onEscKeyDown);
+    }
+  };
+
+  pointComponent.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
+    replacePointToForm();
+    document.addEventListener('keydown', onEscKeyDown);
+  });
+
+  pointEditComponent.element.querySelector('.event__save-btn').addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    replaceFormToPoint();
+    document.removeEventListener('keydown', onEscKeyDown);
+  });
+
   render(pointListElement, pointComponent.element, RenderPosition.BEFOREEND);
 };
+
 
 render(navHeaderElement, new SiteMenuView().element, RenderPosition.BEFOREEND);
 render(filtersHeaderElement, new FiltersTemplate(filters).element, RenderPosition.BEFOREEND);
