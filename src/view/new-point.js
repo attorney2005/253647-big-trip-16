@@ -1,3 +1,5 @@
+import {createElement} from '../render.js';
+
 const createPictureTemplate = (
   pictures
 ) => `<div class="event__photos-container">
@@ -32,7 +34,7 @@ const createOfferTemplate = (
       </div>
   </section>`;
 
-export const createNewPointTemplate = (point) => {
+const createNewPointTemplate = (point) => {
   const { destination, offers } = point;
 
   const offerTemplate = offers.length ? createOfferTemplate(offers) : '';
@@ -143,3 +145,28 @@ export const createNewPointTemplate = (point) => {
     </section>
   </form>`;
 };
+
+export default class NewPointTemplate {
+  #element = null;
+  #point = null;
+
+  constructor(point) {
+    this.#point = point;
+  }
+
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
+    }
+
+    return this.#element;
+  }
+
+  get template() {
+    return createNewPointTemplate(this.#point);
+  }
+
+  removeElement() {
+    this.#element = null;
+  }
+}
