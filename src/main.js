@@ -1,4 +1,4 @@
-import {createSiteMenuTemplate} from './view/menu-view.js';
+import SiteMenuView from './view/menu-view.js';
 import {createFiltersTemplate} from './view/filter-view.js';
 import {createSortTemplate} from './view/sort.js';
 import {createNewPointTemplate} from './view/new-point.js';
@@ -9,7 +9,7 @@ import {generatePoint} from './mock/task.js';
 import {generateFilter} from './mock/filter.js';
 // import {DEFAULT_VALUE} from './const.js';
 
-import {renderTemplate, RenderPosition} from './render.js';
+import {renderTemplate, renderElement, RenderPosition} from './render.js';
 import {SORTING} from './const';
 
 const POINTS_COUNT = 3;
@@ -20,7 +20,7 @@ const headerElement = document.querySelector('.trip-main__trip-controls');
 const navHeaderElement = headerElement.querySelector('.trip-controls__navigation');
 const filtersHeaderElement = headerElement.querySelector('.trip-controls__filters');
 
-renderTemplate(navHeaderElement, createSiteMenuTemplate(), RenderPosition.BEFOREEND);
+renderTemplate(navHeaderElement, new SiteMenuView().element, RenderPosition.BEFOREEND);
 renderTemplate(filtersHeaderElement, createFiltersTemplate(filters), RenderPosition.BEFOREEND);
 
 const mainElement = document.querySelector('.page-main');
