@@ -20,6 +20,13 @@ const headerElement = document.querySelector('.trip-main__trip-controls');
 const navHeaderElement = headerElement.querySelector('.trip-controls__navigation');
 const filtersHeaderElement = headerElement.querySelector('.trip-controls__filters');
 
+const renderPoint = (pointListElement, point) => {
+  const pointComponent = new PointTemplate(point);
+  const pointEditComponent = new NewPointTemplate(point);
+
+  render(pointListElement, pointComponent.element, RenderPosition.BEFOREEND);
+};
+
 render(navHeaderElement, new SiteMenuView().element, RenderPosition.BEFOREEND);
 render(filtersHeaderElement, new FiltersTemplate(filters).element, RenderPosition.BEFOREEND);
 
@@ -31,8 +38,9 @@ render(eventsElementContainer, new PointsListView().element, RenderPosition.BEFO
 
 const eventsElementList = mainElement.querySelector('.trip-events__list');
 
-render(eventsElementList, new NewPointTemplate(points[0]).element, RenderPosition.BEFOREEND);
+// render(eventsElementList, new NewPointTemplate(points[0]).element, RenderPosition.BEFOREEND);
 
 for (let i = 0; i < POINTS_COUNT; i++) {
-  render(eventsElementList, new PointTemplate(points[i]).element, RenderPosition.BEFOREEND);
+  renderPoint(eventsElementList, points[i]);
+  // render(eventsElementList, new PointTemplate(points[i]).element, RenderPosition.BEFOREEND);
 }
