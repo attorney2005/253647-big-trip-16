@@ -1,5 +1,5 @@
 import SiteMenuView from './view/menu-view.js';
-import {createFiltersTemplate} from './view/filter-view.js';
+import FiltersTemplate from './view/filter-view.js';
 import {createSortTemplate} from './view/sort.js';
 import NewPointTemplate from './view/new-point.js';
 import PointTemplate from './view/point-view.js';
@@ -21,7 +21,7 @@ const navHeaderElement = headerElement.querySelector('.trip-controls__navigation
 const filtersHeaderElement = headerElement.querySelector('.trip-controls__filters');
 
 renderElement(navHeaderElement, new SiteMenuView().element, RenderPosition.BEFOREEND);
-renderTemplate(filtersHeaderElement, createFiltersTemplate(filters), RenderPosition.BEFOREEND);
+renderElement(filtersHeaderElement, new FiltersTemplate(filters).element, RenderPosition.BEFOREEND);
 
 const mainElement = document.querySelector('.page-main');
 const eventsElementContainer = document.querySelector('.trip-events');
