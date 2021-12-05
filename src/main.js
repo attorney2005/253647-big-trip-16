@@ -1,6 +1,6 @@
 import SiteMenuView from './view/menu-view.js';
 import FiltersTemplate from './view/filter-view.js';
-import {createSortTemplate} from './view/sort.js';
+import SortTemplate from './view/sort.js';
 import NewPointTemplate from './view/new-point.js';
 import PointTemplate from './view/point-view.js';
 import PointsListItemView from './view/points-list-item.js';
@@ -26,7 +26,7 @@ renderElement(filtersHeaderElement, new FiltersTemplate(filters).element, Render
 const mainElement = document.querySelector('.page-main');
 const eventsElementContainer = document.querySelector('.trip-events');
 
-renderTemplate(eventsElementContainer, createSortTemplate(SORTING[0]), RenderPosition.BEFOREEND);
+renderElement(eventsElementContainer, new SortTemplate(SORTING[0]).element, RenderPosition.BEFOREEND);
 renderElement(eventsElementContainer, new PointsListView().element, RenderPosition.BEFOREEND);
 
 const eventsElementList = mainElement.querySelector('.trip-events__list');
