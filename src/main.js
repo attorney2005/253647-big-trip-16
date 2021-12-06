@@ -11,7 +11,7 @@ import {generateFilter} from './mock/filter.js';
 // import {DEFAULT_VALUE} from './const.js';
 
 import {render, RenderPosition} from './render.js';
-import {SORTING} from './const';
+// import {SORTING} from './const';
 
 const POINTS_COUNT = 3;
 const points = Array.from({length: POINTS_COUNT}, generatePoint);
@@ -48,6 +48,12 @@ const renderPoint = (pointListElement, point) => {
   });
 
   pointEditComponent.element.querySelector('.event__save-btn').addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    replaceFormToPoint();
+    document.removeEventListener('keydown', onEscKeyDown);
+  });
+
+  pointEditComponent.element.querySelector('.event__reset-btn').addEventListener('click', (evt) => {
     evt.preventDefault();
     replaceFormToPoint();
     document.removeEventListener('keydown', onEscKeyDown);
