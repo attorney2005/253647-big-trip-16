@@ -3,6 +3,7 @@ import FiltersTemplate from './view/filter-view.js';
 import SortTemplate from './view/sort.js';
 import NewPointTemplate from './view/new-point.js';
 import PointTemplate from './view/point-view.js';
+import NoPointView from './view/no-point-view.js';
 // import PointsListItemView from './view/points-list-item.js';
 import PointsListView from './view/points-list.js';
 import {generatePoint} from './mock/task.js';
@@ -69,7 +70,18 @@ const eventsElementList = mainElement.querySelector('.trip-events__list');
 
 // render(eventsElementList, new NewPointTemplate(points[0]).element, RenderPosition.BEFOREEND);
 
-for (let i = 0; i < POINTS_COUNT; i++) {
-  renderPoint(eventsElementList, points[i]);
-  // render(eventsElementList, new PointTemplate(points[i]).element, RenderPosition.BEFOREEND);
+// for (let i = 0; i < POINTS_COUNT; i++) {
+//   renderPoint(eventsElementList, points[i]);
+//   // render(eventsElementList, new PointTemplate(points[i]).element, RenderPosition.BEFOREEND);
+// }
+
+if (!points.length) {
+  render(eventsElementList, new NoPointView().element);
+} else {
+  render(eventsElementContainer, new SortTemplate().element);
+  render(eventsElementContainer, new PointsListView().element);
+  const eventsListElement = eventsElementContainer.querySelector('.trip-events__list');
+  for (const point of points) {
+    renderPoint(eventsListElement, point);
+  }
 }
