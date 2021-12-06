@@ -63,10 +63,10 @@ render(filtersHeaderElement, new FiltersTemplate(filters).element, RenderPositio
 const mainElement = document.querySelector('.page-main');
 const eventsElementContainer = document.querySelector('.trip-events');
 
-render(eventsElementContainer, new SortTemplate(SORTING[0]).element, RenderPosition.BEFOREEND);
+// render(eventsElementContainer, new SortTemplate(SORTING[0]).element, RenderPosition.BEFOREEND);
 render(eventsElementContainer, new PointsListView().element, RenderPosition.BEFOREEND);
 
-const eventsElementList = mainElement.querySelector('.trip-events__list');
+// const eventsElementList = mainElement.querySelector('.trip-events__list');
 
 // render(eventsElementList, new NewPointTemplate(points[0]).element, RenderPosition.BEFOREEND);
 
@@ -76,12 +76,15 @@ const eventsElementList = mainElement.querySelector('.trip-events__list');
 // }
 
 if (!points.length) {
-  render(eventsElementList, new NoPointView().element);
+  render(eventsElementContainer, new NoPointView().element);
+  // console.log(eventsElementContainer, new NoPointView().element);
 } else {
   render(eventsElementContainer, new SortTemplate().element);
   render(eventsElementContainer, new PointsListView().element);
-  const eventsListElement = eventsElementContainer.querySelector('.trip-events__list');
+  const eventsElementList = mainElement.querySelector('.trip-events__list');
   for (const point of points) {
-    renderPoint(eventsListElement, point);
+    renderPoint(eventsElementList, point);
+    // console.log(eventsElementList, point);
   }
 }
+
