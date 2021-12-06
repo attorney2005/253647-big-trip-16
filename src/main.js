@@ -1,17 +1,14 @@
 import SiteMenuView from './view/menu-view.js';
 import FiltersTemplate from './view/filter-view.js';
 import SortTemplate from './view/sort.js';
-import NewPointTemplate from './view/new-point.js';
+import NewPointTemplate from './view/new-point-view.js';
 import PointTemplate from './view/point-view.js';
 import NoPointView from './view/no-point-view.js';
-// import PointsListItemView from './view/points-list-item.js';
-import PointsListView from './view/points-list.js';
+import PointsListView from './view/points-list-view.js';
 import {generatePoint} from './mock/task.js';
 import {generateFilter} from './mock/filter.js';
-// import {DEFAULT_VALUE} from './const.js';
 
 import {render, RenderPosition} from './render.js';
-// import {SORTING} from './const';
 
 const POINTS_COUNT = 3;
 const points = Array.from({length: POINTS_COUNT}, generatePoint);
