@@ -1,6 +1,6 @@
 import SiteMenuView from './view/menu-view.js';
 import FiltersTemplate from './view/filter-view.js';
-import SortTemplate from './view/sort.js';
+import SortTemplate from './view/sort-view.js';
 import NewPointTemplate from './view/new-point-view.js';
 import PointTemplate from './view/point-view.js';
 import NoPointView from './view/no-point-view.js';
@@ -66,17 +66,7 @@ render(filtersHeaderElement, new FiltersTemplate(filters).element, RenderPositio
 const mainElement = document.querySelector('.page-main');
 const eventsElementContainer = document.querySelector('.trip-events');
 
-// render(eventsElementContainer, new SortTemplate(SORTING[0]).element, RenderPosition.BEFOREEND);
 render(eventsElementContainer, new PointsListView().element, RenderPosition.BEFOREEND);
-
-// const eventsElementList = mainElement.querySelector('.trip-events__list');
-
-// render(eventsElementList, new NewPointTemplate(points[0]).element, RenderPosition.BEFOREEND);
-
-// for (let i = 0; i < POINTS_COUNT; i++) {
-//   renderPoint(eventsElementList, points[i]);
-//   // render(eventsElementList, new PointTemplate(points[i]).element, RenderPosition.BEFOREEND);
-// }
 
 if (!points.length) {
   render(eventsElementContainer, new NoPointView().element);
@@ -87,7 +77,6 @@ if (!points.length) {
   const eventsElementList = mainElement.querySelector('.trip-events__list');
   for (const point of points) {
     renderPoint(eventsElementList, point);
-    // console.log(eventsElementList, point);
   }
 }
 
