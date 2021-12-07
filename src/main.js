@@ -1,8 +1,8 @@
 import SiteMenuView from './view/menu-view.js';
-import FiltersTemplate from './view/filter-view.js';
-import SortTemplate from './view/sort-view.js';
-import NewPointTemplate from './view/new-point-view.js';
-import PointTemplate from './view/point-view.js';
+import FiltersView from './view/filter-view.js';
+import SortView from './view/sort-view.js';
+import NewPointView from './view/new-point-view.js';
+import PointView from './view/point-view.js';
 import NoPointView from './view/no-point-view.js';
 import PointsListView from './view/points-list-view.js';
 import {generatePoint} from './mock/task.js';
@@ -20,8 +20,8 @@ const filtersHeaderElement = headerElement.querySelector('.trip-controls__filter
 
 
 const renderPoint = (pointListElement, point) => {
-  const pointComponent = new PointTemplate(point);
-  const pointEditComponent = new NewPointTemplate(point);
+  const pointComponent = new PointView(point);
+  const pointEditComponent = new NewPointView(point);
 
   const replacePointToForm = () => {
     pointListElement.replaceChild(pointEditComponent.element, pointComponent.element);
@@ -61,7 +61,7 @@ const renderPoint = (pointListElement, point) => {
 
 
 render(navHeaderElement, new SiteMenuView().element, RenderPosition.BEFOREEND);
-render(filtersHeaderElement, new FiltersTemplate(filters).element, RenderPosition.BEFOREEND);
+render(filtersHeaderElement, new FiltersView(filters).element, RenderPosition.BEFOREEND);
 
 const mainElement = document.querySelector('.page-main');
 const eventsElementContainer = document.querySelector('.trip-events');
@@ -70,9 +70,8 @@ render(eventsElementContainer, new PointsListView().element, RenderPosition.BEFO
 
 if (!points.length) {
   render(eventsElementContainer, new NoPointView().element);
-  // console.log(eventsElementContainer, new NoPointView().element);
 } else {
-  render(eventsElementContainer, new SortTemplate().element);
+  render(eventsElementContainer, new SortView().element);
   render(eventsElementContainer, new PointsListView().element);
   const eventsElementList = mainElement.querySelector('.trip-events__list');
   for (const point of points) {

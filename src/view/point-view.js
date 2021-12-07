@@ -45,7 +45,7 @@ const createPointTemplate = (point) => {
   </div>`;
 };
 
-export default class PointTemplate  {
+export default class PointView {
   #element = null;
   #point = null;
 

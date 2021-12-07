@@ -27,7 +27,7 @@ const createFiltersTemplate = (filterItems) => {
 };
 
 
-export default class FiltersTemplate{
+export default class FiltersView {
   #element = null;
   #filters = null;
 

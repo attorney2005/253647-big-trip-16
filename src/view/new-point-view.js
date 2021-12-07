@@ -146,7 +146,7 @@ const createNewPointTemplate = (point) => {
   </form>`;
 };
 
-export default class NewPointTemplate {
+export default class NewPointView {
   #element = null;
   #point = null;
 
