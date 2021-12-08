@@ -12,4 +12,3 @@ export default class SiteMenuView extends AbstractView {
     return createSiteMenuTemplate();
   }
 }
-
