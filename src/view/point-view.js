@@ -1,4 +1,4 @@
-import {createElement} from '../render.js';
+import AbstractView from './abstract-view';
 
 const createOfferTemplate = (offers) => `<ul class="event__selected-offers">
   ${offers.map(({title, price}) => `<li class="event__offer">
@@ -45,27 +45,13 @@ const createPointTemplate = (point) => {
   </div>`;
 };
 
-export default class PointView {
-  #element = null;
+export default class PointView extends AbstractView {
   #point = null;
-
   constructor(point) {
+    super();
     this.#point = point;
   }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
   get template() {
     return createPointTemplate(this.#point);
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }
