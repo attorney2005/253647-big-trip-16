@@ -148,12 +148,33 @@ const createNewPointTemplate = (point) => {
 
 export default class NewPointView extends AbstractView {
   #point = null;
+
   constructor(point) {
     super();
     this.#point = point;
   }
+
   get template() {
     return createNewPointTemplate(this.#point);
   }
-}
 
+  setSafeButtonClickHandler = (callback) => {
+    this._callback.safeClick = callback;
+    this.element.querySelector('.event__save-btn').addEventListener('submit', this.#SafeButtonClickHandler);
+  }
+
+  #SafeButtonClickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.safeClick();
+  }
+
+  setResetButtonClickHandler = (callback) => {
+    this._callback.resetClick = callback;
+    this.element.querySelector('.event__reset-btn').addEventListener('click', this.#ResetButtonClickHandler );
+  }
+
+  #ResetButtonClickHandler  = (evt) => {
+    evt.preventDefault();
+    this._callback.resetClick();
+  }
+}
