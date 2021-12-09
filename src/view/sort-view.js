@@ -23,6 +23,7 @@ export default class SortView extends AbstractView {
     super();
     this.#defaultSort = defaultSort;
   }
+
   get template() {
     return createSortTemplate(this.#defaultSort);
   }

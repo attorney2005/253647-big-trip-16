@@ -32,6 +32,7 @@ export default class FiltersView extends AbstractView {
     super();
     this.#defaultSort = defaultSort;
   }
+
   get template() {
     return createFiltersTemplate(this.#defaultSort);
   }
