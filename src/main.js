@@ -7,8 +7,8 @@ import NoPointView from './view/no-point-view.js';
 import PointsListView from './view/points-list-view.js';
 import {generatePoint} from './mock/task.js';
 import {generateFilter} from './mock/filter.js';
-
-import {render, RenderPosition} from './render.js';
+import {RenderPosition} from './const.js';
+import {render} from './render.js';
 
 const POINTS_COUNT = 3;
 const points = Array.from({length: POINTS_COUNT}, generatePoint);

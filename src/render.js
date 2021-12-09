@@ -1,11 +1,5 @@
 import AbstractView from './view/abstract-view.js';
-
-export const RenderPosition = {
-  BEFOREBEGIN: 'beforebegin',
-  AFTERBEGIN: 'afterbegin',
-  BEFOREEND: 'beforeend',
-  AFTEREND: 'afterend',
-};
+import {RenderPosition} from './const.js';
 
 export const render = (container, element, place) => {
   const parent = container instanceof AbstractView ? container.element : container;
@@ -27,10 +21,4 @@ export const render = (container, element, place) => {
   }
 };
 
-export const createElement = (template) => {
-  const newElement = document.createElement('div'); // 1
-  newElement.innerHTML = template; // 2
-
-  return newElement.firstChild; // 3
-};
 
