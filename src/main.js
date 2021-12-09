@@ -54,23 +54,21 @@ const renderPoint = (pointListElement, point) => {
     document.removeEventListener('keydown', onEscKeyDown);
   });
 
-  render(pointListElement, pointComponent.element, RenderPosition.BEFOREEND);
+  render(pointListElement, pointComponent, RenderPosition.BEFOREEND);
 };
-
-
-render(navHeaderElement, new SiteMenuView().element, RenderPosition.BEFOREEND);
-render(filtersHeaderElement, new FiltersView(filters).element, RenderPosition.BEFOREEND);
+render(navHeaderElement, new SiteMenuView(), RenderPosition.BEFOREEND);
+render(filtersHeaderElement, new FiltersView(filters), RenderPosition.BEFOREEND);
 
 const mainElement = document.querySelector('.page-main');
 const eventsElementContainer = document.querySelector('.trip-events');
 
-render(eventsElementContainer, new PointsListView().element, RenderPosition.BEFOREEND);
+render(eventsElementContainer, new PointsListView(), RenderPosition.BEFOREEND);
 
 if (!points.length) {
-  render(eventsElementContainer, new NoPointView().element);
+  render(eventsElementContainer, new NoPointView());
 } else {
-  render(eventsElementContainer, new SortView().element);
-  render(eventsElementContainer, new PointsListView().element);
+  render(eventsElementContainer, new SortView());
+  render(eventsElementContainer, new PointsListView());
   const eventsElementList = mainElement.querySelector('.trip-events__list');
   for (const point of points) {
     renderPoint(eventsElementList, point);
