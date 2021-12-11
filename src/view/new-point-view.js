@@ -158,22 +158,22 @@ export default class NewPointView extends AbstractView {
     return createNewPointTemplate(this.#point);
   }
 
-  setSafeButtonClickHandler = (callback) => {
+  setsafeButtonClickHandler = (callback) => {
     this._callback.safeClick = callback;
-    this.element.querySelector('.event__save-btn').addEventListener('submit', this.#SafeButtonClickHandler);
+    this.element.querySelector('.event__save-btn').addEventListener('submit', this.#safeButtonClickHandler);
   }
 
-  #SafeButtonClickHandler = (evt) => {
+  #safeButtonClickHandler = (evt) => {
     evt.preventDefault();
     this._callback.safeClick();
   }
 
-  setResetButtonClickHandler = (callback) => {
+  setresetButtonClickHandler = (callback) => {
     this._callback.resetClick = callback;
-    this.element.querySelector('.event__reset-btn').addEventListener('click', this.#ResetButtonClickHandler );
+    this.element.querySelector('.event__reset-btn').addEventListener('click', this.#resetButtonClickHandler );
   }
 
-  #ResetButtonClickHandler  = (evt) => {
+  #resetButtonClickHandler  = (evt) => {
     evt.preventDefault();
     this._callback.resetClick();
   }

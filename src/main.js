@@ -39,17 +39,17 @@ const renderPoint = (pointListElement, point) => {
     }
   };
 
-  pointComponent.setRollupButtonClickHandler(() => {
+  pointComponent.setrollupButtonClickHandler(() => {
     replacePointToForm();
     document.addEventListener('keydown', onEscKeyDown);
   });
 
-  pointEditComponent.setSafeButtonClickHandler(() => {
+  pointEditComponent.setsafeButtonClickHandler(() => {
     replaceFormToPoint();
     document.removeEventListener('keydown', onEscKeyDown);
   });
 
-  pointEditComponent.setResetButtonClickHandler(() => {
+  pointEditComponent.setresetButtonClickHandler(() => {
     replaceFormToPoint();
     document.removeEventListener('keydown', onEscKeyDown);
   });
