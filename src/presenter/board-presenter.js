@@ -8,6 +8,7 @@ import {RenderPosition} from '../const.js';
 import {render} from '../render.js';
 import SiteMenuView from '../view/menu-view';
 import FiltersView from '../view/filter-view';
+import TaskPresenter from './task-presenter';
 
 export default class BoardPresenter {
 
@@ -31,7 +32,8 @@ export default class BoardPresenter {
   #boardPoints = [];
   #filters = [];
 
-  constructor() {}
+  constructor() {
+  }
 
   init = (boardPoints) => {
     this.#boardPoints = [...boardPoints];
@@ -48,63 +50,66 @@ export default class BoardPresenter {
       this.#renderPointList();
       this.#renderPoints();
     }
-  }
+  };
 
   #renderSort = () => {
     render(this.#eventsContainerElement, this.#sortComponent);
-  }
+  };
 
   #renderPoint = (point) => {
-    const pointComponent = new PointView(point);
-    const pointEditComponent = new NewPointView(point);
-    const eventsElementList = this.#mainElement.querySelector('.trip-events__list');
+    // const pointComponent = new PointView(point);
+    // const pointEditComponent = new NewPointView(point);
+    // const eventsElementList = this.#mainElement.querySelector('.trip-events__list');
+    //
+    // const replacePointToForm = () => {
+    //   eventsElementList.replaceChild(pointEditComponent.element, pointComponent.element);
+    // };
+    //
+    // const replaceFormToPoint = () => {
+    //   eventsElementList.replaceChild(pointComponent.element, pointEditComponent.element);
+    // };
+    //
+    // const onEscKeyDown = (evt) => {
+    //   if (evt.key === 'Escape' || evt.key === 'Esc') {
+    //     evt.preventDefault();
+    //     replaceFormToPoint();
+    //     document.removeEventListener('keydown', onEscKeyDown);
+    //   }
+    // };
+    //
+    // pointComponent.setrollupButtonClickHandler(() => {
+    //   replacePointToForm();
+    //   document.addEventListener('keydown', onEscKeyDown);
+    // });
+    //
+    // pointEditComponent.setsafeButtonClickHandler(() => {
+    //   replaceFormToPoint();
+    //   document.removeEventListener('keydown', onEscKeyDown);
+    // });
+    //
+    // pointEditComponent.setresetButtonClickHandler(() => {
+    //   replaceFormToPoint();
+    //   document.removeEventListener('keydown', onEscKeyDown);
+    // });
+    //
+    //
+    // render(eventsElementList, pointComponent, RenderPosition.BEFOREEND);
 
-    const replacePointToForm = () => {
-      eventsElementList.replaceChild(pointEditComponent.element, pointComponent.element);
-    };
-
-    const replaceFormToPoint = () => {
-      eventsElementList.replaceChild(pointComponent.element, pointEditComponent.element);
-    };
-
-    const onEscKeyDown = (evt) => {
-      if (evt.key === 'Escape' || evt.key === 'Esc') {
-        evt.preventDefault();
-        replaceFormToPoint();
-        document.removeEventListener('keydown', onEscKeyDown);
-      }
-    };
-
-    pointComponent.setrollupButtonClickHandler(() => {
-      replacePointToForm();
-      document.addEventListener('keydown', onEscKeyDown);
-    });
-
-    pointEditComponent.setsafeButtonClickHandler(() => {
-      replaceFormToPoint();
-      document.removeEventListener('keydown', onEscKeyDown);
-    });
-
-    pointEditComponent.setresetButtonClickHandler(() => {
-      replaceFormToPoint();
-      document.removeEventListener('keydown', onEscKeyDown);
-    });
-
-
-    render(eventsElementList, pointComponent, RenderPosition.BEFOREEND);
-  }
+    const taskPresenter = new TaskPresenter(this.#pointListComponent);
+    taskPresenter.init(point);
+  };
 
   #renderPoints = () => {
     for (const point of this.#boardPoints) {
       this.#renderPoint(point);
     }
-  }
+  };
 
   #renderPointList = () => {
     render(this.#eventsContainerElement, this.#pointListComponent, RenderPosition.BEFOREEND);
-  }
+  };
 
   #renderNoPoints = () => {
     render(this.#eventsContainerElement, this.#noPointsComponent);
-  }
+  };
 }

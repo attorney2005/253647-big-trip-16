@@ -8,7 +8,10 @@ export default class TaskPresenter {
 
   #pointComponent = null;
   #pointEditComponent = null;
+
   #eventsElementList = null;
+  #mainElement = null;
+
   #point = null;
 
   constructor(pointListContainer) {
@@ -17,25 +20,28 @@ export default class TaskPresenter {
 
   init = (point) => {
     this.#point = point;
+
     this.#pointComponent = new PointView(point);
-    this.#pointEditContainer = new NewPointView(point);
+    this.#pointEditComponent = new NewPointView(point);
+
+    this.#mainElement = document.querySelector('.page-main');
     this.#eventsElementList = this.#mainElement.querySelector('.trip-events__list');
 
-    this.#pointComponent, setrollupButtonClickHandler(this.#handleClick);
-    this.#pointEditComponent, setsafeButtonClickHandler(this.#handleSafe);
-    this.#pointEditComponent, setresetButtonClickHandler(this.#handleReset);
+    this.#pointComponent.setrollupButtonClickHandler(this.#handleClick);
+    this.#pointEditComponent.setsafeButtonClickHandler(this.#handleSafe);
+    this.#pointEditComponent.setresetButtonClickHandler(this.#handleReset);
 
     render(this.#pointListContainer, this.#pointComponent, RenderPosition.BEFOREEND);
   };
 
   #replacePointToForm = () => {
     this.#eventsElementList.replaceChild(this.#pointEditComponent.element, this.#pointComponent.element);
-    document.removeEventListener('keydown', onEscKeyDown);
+    document.addEventListener('keydown', this.#onEscKeyDown);
   };
 
   #replaceFormToPoint = () => {
-    this.#eventsElementList.replaceChild(this.#pointComponent.element, this.#pointEditContainer.element);
-    document.removeEventListener('keydown', onEscKeyDown);
+    this.#eventsElementList.replaceChild(this.#pointComponent.element, this.#pointEditComponent.element);
+    document.addEventListener('keydown', this.#onEscKeyDown);
   };
 
   #onEscKeyDown = (evt) => {
@@ -47,14 +53,14 @@ export default class TaskPresenter {
 
   #handleClick = () => {
     this.#replacePointToForm();
-  }
+  };
 
   #handleSafe = () => {
     this.#replaceFormToPoint();
-  }
+  };
 
-  #handleReset =() => {
+  #handleReset = () => {
     this.#replaceFormToPoint();
-  }
+  };
 }
 
