@@ -1,6 +1,6 @@
 import SortView from '../view/sort-view.js';
-import NewPointView from '../view/new-point-view.js';
-import PointView from '../view/point-view.js';
+// import NewPointView from '../view/new-point-view.js';
+// import PointView from '../view/point-view.js';
 import NoPointView from '../view/no-point-view.js';
 import PointsListView from '../view/points-list-view.js';
 import {generateFilter} from '../mock/filter.js';
@@ -9,6 +9,7 @@ import {render} from '../render.js';
 import SiteMenuView from '../view/menu-view';
 import FiltersView from '../view/filter-view';
 import TaskPresenter from './task-presenter';
+import {updateItem} from '/src/utils.js';
 
 export default class BoardPresenter {
 
@@ -53,12 +54,18 @@ export default class BoardPresenter {
     }
   };
 
+  #handlePointChange = (updatedPoint) => {
+    this.#boardPoints = updateItem(this.#boardPoints, updatedPoint);
+    this.#taskPresenter.get(updatedPoint.id).init(updatedPoint);
+  }
+
+
   #renderSort = () => {
     render(this.#eventsContainerElement, this.#sortComponent);
   };
 
   #renderPoint = (point) => {
-    const taskPresenter = new TaskPresenter(this.#pointListComponent);
+    const taskPresenter = new TaskPresenter(this.#pointListComponent, this.#handlePointChange);
     taskPresenter.init(point);
     this.#taskPresenter.set(point.id, taskPresenter);
   };
@@ -68,6 +75,11 @@ export default class BoardPresenter {
       this.#renderPoint(point);
     }
   };
+
+  #clearPointList = () => {
+    this.#taskPresenter.forEach((presenter) => presenter.destroy());
+    this.#taskPresenter.clear();
+  }
 
   #renderPointList = () => {
     render(this.#eventsContainerElement, this.#pointListComponent, RenderPosition.BEFOREEND);
