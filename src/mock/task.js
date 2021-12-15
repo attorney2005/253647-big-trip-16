@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import {getRandomInteger} from '/utils.js';
+import {nanoid} from 'nanoid';
 
 const generatePointType = () => {
   const pointTypes = [
@@ -25,7 +26,7 @@ const generateOffers = () => {
 
   return {
     type: generatePointType(),
-    offers: Array.from({ length: getRandomInteger(2, 4) }, (_, i) => ({
+    offers: Array.from({length: getRandomInteger(2, 4)}, (_, i) => ({
       id: i,
       title: titles[i],
       price: priceGeneration()
@@ -33,7 +34,7 @@ const generateOffers = () => {
   };
 };
 
-const generatePictures = () => Array.from({ length: getRandomInteger(1, 3) }, () => ({
+const generatePictures = () => Array.from({length: getRandomInteger(1, 3)}, () => ({
   src: `http://picsum.photos/248/152?r=${getRandomInteger(1, 5)}`,
   description: 'Chamonix parliament building'
 }));
@@ -56,6 +57,7 @@ const generateTravelDateCheckIn = () => dayjs(new Date()).format('DD MMMM');
 const generateTravelDateCheckOut = () => dayjs(new Date()).add(4, 'day').format('DD MMMM');
 
 export const generatePoint = () => ({
+  id: nanoid(),
   destination: generateDestination(),
   pointType: generatePointType(),
   dateCheckIn: generateTravelDateCheckIn(),

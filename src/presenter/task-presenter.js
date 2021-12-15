@@ -1,7 +1,7 @@
 import PointView from '../view/point-view';
 import NewPointView from '../view/new-point-view';
 import {RenderPosition} from '../const.js';
-import {render} from '../render.js';
+import {render, replace, remove} from '../render.js';
 
 export default class TaskPresenter {
   #pointListContainer = null;
@@ -21,6 +21,9 @@ export default class TaskPresenter {
   init = (point) => {
     this.#point = point;
 
+    const prevPointComponent = this.#pointComponent;
+    const prevPointEditComponent = this.#pointEditComponent;
+
     this.#pointComponent = new PointView(point);
     this.#pointEditComponent = new NewPointView(point);
 
@@ -31,7 +34,22 @@ export default class TaskPresenter {
     this.#pointEditComponent.setsafeButtonClickHandler(this.#handleSafe);
     this.#pointEditComponent.setresetButtonClickHandler(this.#handleReset);
 
-    render(this.#pointListContainer, this.#pointComponent, RenderPosition.BEFOREEND);
+    if (prevPointComponent === null || prevPointEditComponent === null) {
+      render(this.#pointListContainer, this.#pointComponent, RenderPosition.BEFOREEND);
+      return;
+    }
+
+    if (this.#pointListContainer.element.contains(prevPointEditComponent.element)) {
+      replace(this.#pointEditComponent, prevPointEditComponent);
+    }
+
+    remove(prevPointComponent);
+    remove(prevPointEditComponent);
+  };
+
+  destroy = () => {
+    remove(this.#pointComponent);
+    remove(this.#pointEditComponent);
   };
 
   #replacePointToForm = () => {

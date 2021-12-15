@@ -31,6 +31,7 @@ export default class BoardPresenter {
   /* Data */
   #boardPoints = [];
   #filters = [];
+  #taskPresenter = new Map();
 
   constructor() {
   }
@@ -57,46 +58,9 @@ export default class BoardPresenter {
   };
 
   #renderPoint = (point) => {
-    // const pointComponent = new PointView(point);
-    // const pointEditComponent = new NewPointView(point);
-    // const eventsElementList = this.#mainElement.querySelector('.trip-events__list');
-    //
-    // const replacePointToForm = () => {
-    //   eventsElementList.replaceChild(pointEditComponent.element, pointComponent.element);
-    // };
-    //
-    // const replaceFormToPoint = () => {
-    //   eventsElementList.replaceChild(pointComponent.element, pointEditComponent.element);
-    // };
-    //
-    // const onEscKeyDown = (evt) => {
-    //   if (evt.key === 'Escape' || evt.key === 'Esc') {
-    //     evt.preventDefault();
-    //     replaceFormToPoint();
-    //     document.removeEventListener('keydown', onEscKeyDown);
-    //   }
-    // };
-    //
-    // pointComponent.setrollupButtonClickHandler(() => {
-    //   replacePointToForm();
-    //   document.addEventListener('keydown', onEscKeyDown);
-    // });
-    //
-    // pointEditComponent.setsafeButtonClickHandler(() => {
-    //   replaceFormToPoint();
-    //   document.removeEventListener('keydown', onEscKeyDown);
-    // });
-    //
-    // pointEditComponent.setresetButtonClickHandler(() => {
-    //   replaceFormToPoint();
-    //   document.removeEventListener('keydown', onEscKeyDown);
-    // });
-    //
-    //
-    // render(eventsElementList, pointComponent, RenderPosition.BEFOREEND);
-
     const taskPresenter = new TaskPresenter(this.#pointListComponent);
     taskPresenter.init(point);
+    this.#taskPresenter.set(point.id, taskPresenter);
   };
 
   #renderPoints = () => {
