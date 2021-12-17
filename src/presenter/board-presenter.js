@@ -70,6 +70,25 @@ export default class BoardPresenter {
     this.#taskPresenter.get(updatedPoint.id).init(updatedPoint);
   }
 
+  #sortPoints = (sortType) => {
+
+    switch (sortType) {
+      case SortType.PRICE:
+        this.#boardPoints.sort(sortByPrice);
+        break;
+
+      case SortType.TIME:
+        this.#boardPoints.sort(sortByTime);
+        break;
+
+      default:
+        this.#boardPoints = [...this.#sourcedBoardPoints];
+    }
+
+    this.#currentSortType = sortType;
+  }
+
+
   #handleSortTypeChange = (sortType) => {
     // - Сортируем задачи
     // - Очищаем список
