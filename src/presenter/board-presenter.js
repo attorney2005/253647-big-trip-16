@@ -10,6 +10,8 @@ import SiteMenuView from '../view/menu-view';
 import FiltersView from '../view/filter-view';
 import TaskPresenter from './task-presenter';
 import {updateItem} from '/src/utils.js';
+import {sortTaskUp, sortTaskDown} from '../utils.js';
+import {SortType} from '../const.js';
 
 export default class BoardPresenter {
 
@@ -34,12 +36,15 @@ export default class BoardPresenter {
   #boardPoints = [];
   #filters = [];
   #taskPresenter = new Map();
+  #currentSortType = SortType.DEFAULT;
+  #sourcedBoardPoints = [];
 
   constructor() {
   }
 
   init = (boardPoints) => {
     this.#boardPoints = [...boardPoints];
+    this.#sourcedBoardPoints = [...boardPoints];
     this.#filters = generateFilter(this.#boardPoints);
     this.#filtersComponent = new FiltersView(this.#filters);
 
@@ -61,6 +66,7 @@ export default class BoardPresenter {
 
   #handlePointChange = (updatedPoint) => {
     this.#boardPoints = updateItem(this.#boardPoints, updatedPoint);
+    this.#sourcedBoardPoints = updateItem(this.#sourcedBoardPoints, updatedPoint);
     this.#taskPresenter.get(updatedPoint.id).init(updatedPoint);
   }
 
