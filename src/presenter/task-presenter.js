@@ -5,6 +5,7 @@ import {render, replace, remove} from '../render.js';
 
 export default class TaskPresenter {
   #pointListContainer = null;
+  #changeData = null;
 
   #pointComponent = null;
   #pointEditComponent = null;
@@ -14,8 +15,9 @@ export default class TaskPresenter {
 
   #point = null;
 
-  constructor(pointListContainer) {
+  constructor(pointListContainer, changeData) {
     this.#pointListContainer = pointListContainer;
+    this.#changeData = changeData;
   }
 
   init = (point) => {
@@ -31,6 +33,7 @@ export default class TaskPresenter {
     this.#eventsElementList = this.#mainElement.querySelector('.trip-events__list');
 
     this.#pointComponent.setrollupButtonClickHandler(this.#handleClick);
+    this.#pointComponent.setfavoriteClickHandler(this.#handleFavoriteClick);
     this.#pointEditComponent.setsafeButtonClickHandler(this.#handleSafe);
     this.#pointEditComponent.setresetButtonClickHandler(this.#handleReset);
 
@@ -67,6 +70,11 @@ export default class TaskPresenter {
       evt.preventDefault();
       this.#replaceFormToPoint();
     }
+  };
+
+
+  #handleFavoriteClick = () => {
+    this.#changeData({...this.#point, isFavorite: !this.#point.isFavorite});
   };
 
   #handleClick = () => {

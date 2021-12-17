@@ -13,6 +13,7 @@ import {updateItem} from '/src/utils.js';
 
 export default class BoardPresenter {
 
+
   /* Components */
   #sortComponent = new SortView();
   #noPointsComponent = new NoPointView();
@@ -54,6 +55,10 @@ export default class BoardPresenter {
     }
   };
 
+  #handleModeChange = () => {
+    this.#taskPresenter.forEach((presenter) => presenter.resetView());
+  }
+
   #handlePointChange = (updatedPoint) => {
     this.#boardPoints = updateItem(this.#boardPoints, updatedPoint);
     this.#taskPresenter.get(updatedPoint.id).init(updatedPoint);
@@ -65,7 +70,7 @@ export default class BoardPresenter {
   };
 
   #renderPoint = (point) => {
-    const taskPresenter = new TaskPresenter(this.#pointListComponent, this.#handlePointChange);
+    const taskPresenter = new TaskPresenter(this.#pointListComponent, this.#handlePointChange, this.#handleModeChange);
     taskPresenter.init(point);
     this.#taskPresenter.set(point.id, taskPresenter);
   };
