@@ -3,9 +3,15 @@ import NewPointView from '../view/new-point-view';
 import {RenderPosition} from '../const.js';
 import {render, replace, remove} from '../render.js';
 
+const Mode = {
+  DEFAULT: 'DEFAULT',
+  EDITING: 'EDITING',
+};
+
 export default class TaskPresenter {
   #pointListContainer = null;
   #changeData = null;
+  #changeMode = null;
 
   #pointComponent = null;
   #pointEditComponent = null;
@@ -14,10 +20,12 @@ export default class TaskPresenter {
   #mainElement = null;
 
   #point = null;
+  #mode = Mode.DEFAULT;
 
-  constructor(pointListContainer, changeData) {
+  constructor(pointListContainer, changeData, changeMode) {
     this.#pointListContainer = pointListContainer;
     this.#changeData = changeData;
+    this.#changeMode = changeMode;
   }
 
   init = (point) => {
@@ -42,7 +50,11 @@ export default class TaskPresenter {
       return;
     }
 
-    if (this.#pointListContainer.element.contains(prevPointEditComponent.element)) {
+    if (this.#mode === Mode.DEFAULT) {
+      replace(this.#pointComponent, prevPointComponent);
+    }
+
+    if (this.#mode === Mode.EDITING) {
       replace(this.#pointEditComponent, prevPointEditComponent);
     }
 
@@ -55,14 +67,23 @@ export default class TaskPresenter {
     remove(this.#pointEditComponent);
   };
 
+  resetView = () => {
+    if (this.#mode !== Mode.DEFAULT) {
+      this.#replaceFormToPoint();
+    }
+  }
+
   #replacePointToForm = () => {
     this.#eventsElementList.replaceChild(this.#pointEditComponent.element, this.#pointComponent.element);
     document.addEventListener('keydown', this.#onEscKeyDown);
+    this.#changeMode();
+    this.#mode = Mode.EDITING;
   };
 
   #replaceFormToPoint = () => {
     this.#eventsElementList.replaceChild(this.#pointComponent.element, this.#pointEditComponent.element);
     document.addEventListener('keydown', this.#onEscKeyDown);
+    this.#mode = Mode.DEFAULT;
   };
 
   #onEscKeyDown = (evt) => {
