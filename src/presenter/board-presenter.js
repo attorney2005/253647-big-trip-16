@@ -90,9 +90,8 @@ export default class BoardPresenter {
 
 
   #handleSortTypeChange = (sortType) => {
-    // - Сортируем задачи
-    // - Очищаем список
-    // - Рендерим список заново
+    this.#clearPointList();
+    this.#renderPointList();
   }
 
 
