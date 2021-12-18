@@ -8,7 +8,7 @@ const Mode = {
   EDITING: 'EDITING',
 };
 
-export default class TaskPresenter {
+export default class PointPresenter {
   #pointListContainer = null;
   #changeData = null;
   #changeMode = null;

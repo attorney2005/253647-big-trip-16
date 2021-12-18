@@ -1,6 +1,4 @@
 import SortView from '../view/sort-view.js';
-// import NewPointView from '../view/new-point-view.js';
-// import PointView from '../view/point-view.js';
 import NoPointView from '../view/no-point-view.js';
 import PointsListView from '../view/points-list-view.js';
 import {generateFilter} from '../mock/filter.js';
@@ -8,7 +6,7 @@ import {RenderPosition} from '../const.js';
 import {render} from '../render.js';
 import SiteMenuView from '../view/menu-view';
 import FiltersView from '../view/filter-view';
-import TaskPresenter from './task-presenter';
+import PointPresenter from './point-presenter';
 import {updateItem} from '/src/utils.js';
 import {sortByPrice, sortByTime} from '/src/utils.js';
 import {SortType} from '../const.js';
@@ -101,7 +99,7 @@ export default class BoardPresenter {
   };
 
   #renderPoint = (point) => {
-    const taskPresenter = new TaskPresenter(this.#pointListComponent, this.#handlePointChange, this.#handleModeChange);
+    const taskPresenter = new PointPresenter(this.#pointListComponent, this.#handlePointChange, this.#handleModeChange);
     taskPresenter.init(point);
     this.#taskPresenter.set(point.id, taskPresenter);
   };
