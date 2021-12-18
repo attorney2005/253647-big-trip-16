@@ -10,7 +10,7 @@ import SiteMenuView from '../view/menu-view';
 import FiltersView from '../view/filter-view';
 import TaskPresenter from './task-presenter';
 import {updateItem} from '/src/utils.js';
-import {sortTaskUp, sortTaskDown} from '../utils.js';
+import {sortByPrice, sortByTime} from '/src/utils.js';
 import {SortType} from '../const.js';
 
 export default class BoardPresenter {
@@ -62,13 +62,13 @@ export default class BoardPresenter {
 
   #handleModeChange = () => {
     this.#taskPresenter.forEach((presenter) => presenter.resetView());
-  }
+  };
 
   #handlePointChange = (updatedPoint) => {
     this.#boardPoints = updateItem(this.#boardPoints, updatedPoint);
     this.#sourcedBoardPoints = updateItem(this.#sourcedBoardPoints, updatedPoint);
     this.#taskPresenter.get(updatedPoint.id).init(updatedPoint);
-  }
+  };
 
   #sortPoints = (sortType) => {
 
@@ -86,15 +86,14 @@ export default class BoardPresenter {
     }
 
     this.#currentSortType = sortType;
-  }
+  };
 
 
   #handleSortTypeChange = (sortType) => {
+    this.#sortPoints(sortType);
     this.#clearPointList();
     this.#renderPointList();
-  }
-
-
+  };
 
   #renderSort = () => {
     render(this.#eventsContainerElement, this.#sortComponent);
@@ -116,7 +115,7 @@ export default class BoardPresenter {
   #clearPointList = () => {
     this.#taskPresenter.forEach((presenter) => presenter.destroy());
     this.#taskPresenter.clear();
-  }
+  };
 
   #renderPointList = () => {
     render(this.#eventsContainerElement, this.#pointListComponent, RenderPosition.BEFOREEND);
