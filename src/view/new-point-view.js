@@ -1,4 +1,7 @@
-import AbstractView from './abstract-view';
+import dayjs from 'dayjs';
+import SmartView from './smart-view.js';
+import flatpickr from 'flatpickr';
+import '/src/const.js';
 
 const createPictureTemplate = (
   pictures
@@ -13,6 +16,22 @@ const createPictureTemplate = (
     </div>
   </div>`;
 
+const BLANK_POINT = {
+  price: '',
+  cities: '',
+  timeStart: '',
+  timeEnd: '',
+  destination: {
+    name: '',
+    destinationInfo: '',
+    pictures: [],
+  },
+  offer: {
+    type: '',
+    offers: [],
+  },
+  offersList: [],
+};
 
 const createOfferTemplate = (
   offers
@@ -35,12 +54,21 @@ const createOfferTemplate = (
   </section>`;
 
 const createNewPointTemplate = (point) => {
-  const { destination, offers } = point;
+  const { price, timeStart, timeEnd, destination, offers } = point;
 
   const offerTemplate = offers.length ? createOfferTemplate(offers) : '';
   const pictureTemplate = destination.pictures
     ? createPictureTemplate(destination.pictures)
     : '';
+  const resetBtnText = price ? 'Delete' : 'Cancel';
+  const getCloseEditFormBtn = () => {
+    if (!price) { return; }
+    return `
+      <button class="event__rollup-btn" type="button">
+        <span class="visually-hidden">Open event</span>
+      </button>
+    `;
+  };
 
   return `<form class="event event--edit" action="#" method="post">
     <header class="event__header">
@@ -117,10 +145,10 @@ const createNewPointTemplate = (point) => {
 
       <div class="event__field-group  event__field-group--time">
         <label class="visually-hidden" for="event-start-time-1">From</label>
-        <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="19/03/19 00:00">
+        <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${dayjs(timeStart).format('YY/MM/DD HH:mm')}">
         &mdash;
         <label class="visually-hidden" for="event-end-time-1">To</label>
-        <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="19/03/19 00:00">
+        <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${dayjs(timeEnd).format('YY/MM/DD HH:mm')}">
       </div>
 
       <div class="event__field-group  event__field-group--price">
@@ -128,11 +156,12 @@ const createNewPointTemplate = (point) => {
           <span class="visually-hidden">Price</span>
           &euro;
         </label>
-        <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="">
+        <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${price}">
       </div>
 
       <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
-      <button class="event__reset-btn" type="reset">Cancel</button>
+      <button class="event__reset-btn" type="reset">${resetBtnText}</button>
+        ${getCloseEditFormBtn()}
     </header>
 
     <section class="event__details">
@@ -146,16 +175,120 @@ const createNewPointTemplate = (point) => {
   </form>`;
 };
 
-export default class NewPointView extends AbstractView {
-  #point = null;
+export default class NewPointView extends SmartView {
+  #datepickerStartTime = null;
+  #datepickerEndTime = null;
 
-  constructor(point) {
+  constructor(point = BLANK_POINT) {
     super();
-    this.#point = point;
+    this._data = NewPointView.parsePointToData(point);
+    this.#setInnerHandlers();
+    // this.#setDatepickerStartTime();
+    // this.#setDatepickerEndTime();
   }
 
   get template() {
-    return createNewPointTemplate(this.#point);
+    return createNewPointTemplate(this._data);
+  }
+
+  restoreHandlers = () => {
+    this.#setInnerHandlers();
+    this.setSubmitHandler(this._callback.editSubmit);
+    this.setEditHandler(this._callback.editClick);
+    // this.#setDatepickerStartTime();
+    // this.#setDatepickerEndTime();
+  }
+
+  removeElement() {
+    super.removeElement();
+
+    // if(this.#datepickerStartTime) {
+    //   this.#datepickerStartTime.destroy();
+    //   this.#datepickerStartTime = null;
+    // }
+    // if(this.#datepickerEndTime) {
+    //   this.#datepickerEndTime.destroy();
+    //   this.#datepickerEndTime = null;
+    // }
+  }
+
+  reset = (point) => {
+    this.updateData(NewPointView.parsePointToData(point));
+  }
+
+  setEditHandler = (callback) => {
+    this._callback.editClick = callback;
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editHandler);
+  }
+
+  setSubmitHandler = (callback) => {
+    this._callback.editSubmit = callback;
+    this.element.querySelector('form').addEventListener('submit', this.#submitHandler);
+  }
+
+  // #setDatepickerStartTime = () => {
+  //   this.#datepickerStartTime = flatpickr(
+  //     this.element.querySelector('#event-start-time-1'),
+  //     {
+  //       enableTime: true,
+  //       dateFormat: 'y/m/d H:i',
+  //       defaultDate: this._data.timeStart,
+  //       onChange: this.#startTimeChangeHandler,
+  //     }
+  //   );
+  // }
+  //
+  // #setDatepickerEndTime = () => {
+  //   this.#datepickerEndTime = flatpickr(
+  //     this.element.querySelector('#event-end-time-1'),
+  //     {
+  //       enableTime: true,
+  //       dateFormat: 'y/m/d H:i',
+  //       defaultDate: this._data.timeEnd,
+  //       minDate: this._data.timeStart,
+  //       onChange: this.#endTimeChangeHandler,
+  //     }
+  //   );
+  // }
+  //
+  // #startTimeChangeHandler = ([userDate]) => {
+  //   this.updateData({
+  //     timeStart: userDate,
+  //   });
+  // }
+  //
+  // #endTimeChangeHandler = ([userDate]) => {
+  //   this.updateData({
+  //     timeEnd: userDate,
+  //   });
+  // }
+
+  #setInnerHandlers = () => {
+    this.element.querySelector('.event__input--destination').addEventListener('change', this.#cityChangeHandler);
+    this.element.querySelector('.event__type-list').addEventListener('change', this.#typeChangeHandler);
+  }
+
+  #cityChangeHandler = (evt) => {
+    const city = this._data.destination.find(({name}) => name.toLowerCase() === evt.target.value.toLowerCase());
+    if (!city) {
+      return;
+    }
+    this.updateData({destination: city});
+  }
+
+  #typeChangeHandler = (evt) => {
+    const newOffer = this._data.offersList.find(({type}) => type.toLowerCase() === evt.target.value.toLowerCase());
+    this.updateData({offer: newOffer});
+  }
+
+  #editHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.editClick();
+  }
+
+  #submitHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.editSubmit(NewPointView.parseDataToPoints(this._data));
   }
 
   setsafeButtonClickHandler = (callback) => {
@@ -177,4 +310,7 @@ export default class NewPointView extends AbstractView {
     evt.preventDefault();
     this._callback.resetClick();
   }
+
+  static parsePointToData = (point) => ({...point});
+  static parseDataToPoints = (data) => ({...data});
 }
