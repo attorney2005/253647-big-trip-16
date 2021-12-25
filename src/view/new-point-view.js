@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import SmartView from './smart-view.js';
 // import flatpickr from 'flatpickr';
 import {OFFERS} from '/src/const.js';
+
 const BLANK_POINT = {
   price: '',
   cities: '',
@@ -24,11 +25,11 @@ const createPictureTemplate = (
 ) => `<div class="event__photos-container">
     <div class="event__photos-tape">
       ${pictures
-    .map(
-      ({src}) =>
-        `<img class="event__photo" src='${src}' alt="Event photo"/>`
-    )
-    .join('')}
+  .map(
+    ({src}) =>
+      `<img class="event__photo" src='${src}' alt="Event photo"/>`
+  )
+  .join('')}
     </div>
   </div>`;
 
@@ -38,8 +39,8 @@ const createOfferTemplate = (
     <h3 class="event__section-title  event__section-title--offers">Offers</h3>
     <div class="event__available-offers">
         ${offers
-    .map(
-      ({id, title, price}) => `<div class="event__offer-selector">
+  .map(
+    ({id, title, price}) => `<div class="event__offer-selector">
           <input class="event__offer-checkbox  visually-hidden" id="${id}-1" type="checkbox" name="${id}" checked>
           <label class="event__offer-label" for="${id}-1">
             <span class="event__offer-title">${title}</span>
@@ -47,8 +48,8 @@ const createOfferTemplate = (
             <span class="event__offer-price">${price}</span>
           </label>
         </div>`
-    )
-    .join('')}
+  )
+  .join('')}
       </div>
   </section>`;
 
@@ -214,6 +215,11 @@ export default class NewPointView extends SmartView {
     this.element.querySelector('form').addEventListener('submit', this.#submitHandler);
   };
 
+
+  static parsePointToData = (point) => ({...point});
+
+  static parseDataToPoint = (data) => ({...data});
+
   #setInnerHandlers = () => {
     this.element.querySelector('.event__input--destination').addEventListener('change', this.#cityChangeHandler);
     this.element.querySelector('.event__type-list').addEventListener('change', this.#typeChangeHandler);
@@ -224,7 +230,7 @@ export default class NewPointView extends SmartView {
     this.updateData({
       city: evt.target.value,
     }, true);
-  }
+  };
 
   #typeChangeHandler = (evt) => {
     evt.preventDefault();
@@ -232,7 +238,7 @@ export default class NewPointView extends SmartView {
       type: evt.target.value,
       offer: OFFERS.find(({eventType}) => evt.target.value === eventType).offers,
     });
-  }
+  };
 
   #editHandler = (evt) => {
     evt.preventDefault();
