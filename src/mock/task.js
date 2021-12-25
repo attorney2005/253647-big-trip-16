@@ -44,6 +44,9 @@ const generateDestination = () => {
     'Amsterdam',
     'Chamonix',
     'Geneva',
+    'Moscow',
+    'London',
+    'Paris'
   ];
   return {
     description: 'Chamonix, is a beautiful city, a true asian pearl, with crowded streets.',

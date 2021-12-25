@@ -1,21 +1,7 @@
 import dayjs from 'dayjs';
 import SmartView from './smart-view.js';
-import flatpickr from 'flatpickr';
-import '/src/const.js';
-
-const createPictureTemplate = (
-  pictures
-) => `<div class="event__photos-container">
-    <div class="event__photos-tape">
-      ${pictures
-    .map(
-      ({ src }) =>
-        `<img class="event__photo" src='${src}' alt="Event photo"/>`
-    )
-    .join('')}
-    </div>
-  </div>`;
-
+// import flatpickr from 'flatpickr';
+import {OFFERS} from '/src/const.js';
 const BLANK_POINT = {
   price: '',
   cities: '',
@@ -33,6 +19,19 @@ const BLANK_POINT = {
   offersList: [],
 };
 
+const createPictureTemplate = (
+  pictures
+) => `<div class="event__photos-container">
+    <div class="event__photos-tape">
+      ${pictures
+    .map(
+      ({src}) =>
+        `<img class="event__photo" src='${src}' alt="Event photo"/>`
+    )
+    .join('')}
+    </div>
+  </div>`;
+
 const createOfferTemplate = (
   offers
 ) => `<section class="event__section  event__section--offers">
@@ -40,7 +39,7 @@ const createOfferTemplate = (
     <div class="event__available-offers">
         ${offers
     .map(
-      ({ id, title, price }) => `<div class="event__offer-selector">
+      ({id, title, price}) => `<div class="event__offer-selector">
           <input class="event__offer-checkbox  visually-hidden" id="${id}-1" type="checkbox" name="${id}" checked>
           <label class="event__offer-label" for="${id}-1">
             <span class="event__offer-title">${title}</span>
@@ -54,7 +53,7 @@ const createOfferTemplate = (
   </section>`;
 
 const createNewPointTemplate = (point) => {
-  const { price, timeStart, timeEnd, destination, offers } = point;
+  const {price, type, timeStart, timeEnd, destination, offers} = point;
 
   const offerTemplate = offers.length ? createOfferTemplate(offers) : '';
   const pictureTemplate = destination.pictures
@@ -62,7 +61,9 @@ const createNewPointTemplate = (point) => {
     : '';
   const resetBtnText = price ? 'Delete' : 'Cancel';
   const getCloseEditFormBtn = () => {
-    if (!price) { return; }
+    if (!price) {
+      return;
+    }
     return `
       <button class="event__rollup-btn" type="button">
         <span class="visually-hidden">Open event</span>
@@ -133,7 +134,7 @@ const createNewPointTemplate = (point) => {
 
       <div class="event__field-group  event__field-group--destination">
         <label class="event__label  event__type-output" for="event-destination-1">
-          Bus
+             ${type}
         </label>
         <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination.name}" list="destination-list-1">
         <datalist id="destination-list-1">
@@ -176,15 +177,13 @@ const createNewPointTemplate = (point) => {
 };
 
 export default class NewPointView extends SmartView {
-  #datepickerStartTime = null;
-  #datepickerEndTime = null;
+  // #datepickerStartTime = null;
+  // #datepickerEndTime = null;
 
   constructor(point = BLANK_POINT) {
     super();
     this._data = NewPointView.parsePointToData(point);
     this.#setInnerHandlers();
-    // this.#setDatepickerStartTime();
-    // this.#setDatepickerEndTime();
   }
 
   get template() {
@@ -195,121 +194,75 @@ export default class NewPointView extends SmartView {
     this.#setInnerHandlers();
     this.setSubmitHandler(this._callback.editSubmit);
     this.setEditHandler(this._callback.editClick);
-    // this.#setDatepickerStartTime();
-    // this.#setDatepickerEndTime();
-  }
+  };
 
   removeElement() {
     super.removeElement();
-
-    // if(this.#datepickerStartTime) {
-    //   this.#datepickerStartTime.destroy();
-    //   this.#datepickerStartTime = null;
-    // }
-    // if(this.#datepickerEndTime) {
-    //   this.#datepickerEndTime.destroy();
-    //   this.#datepickerEndTime = null;
-    // }
   }
 
   reset = (point) => {
     this.updateData(NewPointView.parsePointToData(point));
-  }
+  };
 
   setEditHandler = (callback) => {
     this._callback.editClick = callback;
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editHandler);
-  }
+  };
 
   setSubmitHandler = (callback) => {
     this._callback.editSubmit = callback;
     this.element.querySelector('form').addEventListener('submit', this.#submitHandler);
-  }
-
-  // #setDatepickerStartTime = () => {
-  //   this.#datepickerStartTime = flatpickr(
-  //     this.element.querySelector('#event-start-time-1'),
-  //     {
-  //       enableTime: true,
-  //       dateFormat: 'y/m/d H:i',
-  //       defaultDate: this._data.timeStart,
-  //       onChange: this.#startTimeChangeHandler,
-  //     }
-  //   );
-  // }
-  //
-  // #setDatepickerEndTime = () => {
-  //   this.#datepickerEndTime = flatpickr(
-  //     this.element.querySelector('#event-end-time-1'),
-  //     {
-  //       enableTime: true,
-  //       dateFormat: 'y/m/d H:i',
-  //       defaultDate: this._data.timeEnd,
-  //       minDate: this._data.timeStart,
-  //       onChange: this.#endTimeChangeHandler,
-  //     }
-  //   );
-  // }
-  //
-  // #startTimeChangeHandler = ([userDate]) => {
-  //   this.updateData({
-  //     timeStart: userDate,
-  //   });
-  // }
-  //
-  // #endTimeChangeHandler = ([userDate]) => {
-  //   this.updateData({
-  //     timeEnd: userDate,
-  //   });
-  // }
+  };
 
   #setInnerHandlers = () => {
     this.element.querySelector('.event__input--destination').addEventListener('change', this.#cityChangeHandler);
     this.element.querySelector('.event__type-list').addEventListener('change', this.#typeChangeHandler);
-  }
+  };
 
   #cityChangeHandler = (evt) => {
-    const city = this._data.destination.find(({name}) => name.toLowerCase() === evt.target.value.toLowerCase());
-    if (!city) {
-      return;
-    }
-    this.updateData({destination: city});
+    evt.preventDefault();
+    this.updateData({
+      city: evt.target.value,
+    }, true);
   }
 
   #typeChangeHandler = (evt) => {
-    const newOffer = this._data.offersList.find(({type}) => type.toLowerCase() === evt.target.value.toLowerCase());
-    this.updateData({offer: newOffer});
+    evt.preventDefault();
+    this.updateData({
+      type: evt.target.value,
+      offer: OFFERS.find(({eventType}) => evt.target.value === eventType).offers,
+    });
   }
 
   #editHandler = (evt) => {
     evt.preventDefault();
     this._callback.editClick();
-  }
+  };
 
   #submitHandler = (evt) => {
     evt.preventDefault();
     this._callback.editSubmit(NewPointView.parseDataToPoints(this._data));
-  }
+  };
 
   setsafeButtonClickHandler = (callback) => {
     this._callback.safeClick = callback;
     this.element.querySelector('.event__save-btn').addEventListener('submit', this.#safeButtonClickHandler);
-  }
+  };
 
   #safeButtonClickHandler = (evt) => {
     evt.preventDefault();
     this._callback.safeClick();
-  }
+  };
 
   setresetButtonClickHandler = (callback) => {
     this._callback.resetClick = callback;
-    this.element.querySelector('.event__reset-btn').addEventListener('click', this.#resetButtonClickHandler );
-  }
+    this.element.querySelector('.event__reset-btn').addEventListener('click', this.#resetButtonClickHandler);
+  };
 
-  #resetButtonClickHandler  = (evt) => {
+  #resetButtonClickHandler = (evt) => {
     evt.preventDefault();
     this._callback.resetClick();
-  }
+  };
 
   static parsePointToData = (point) => ({...point});
   static parseDataToPoints = (data) => ({...data});
