@@ -1,12 +1,12 @@
 import dayjs from 'dayjs';
 import {getRandomInteger} from '/utils.js';
 import {nanoid} from 'nanoid';
-// import {DESTINATIONS} from '/src/const.js';
+import {DESTINATIONS} from '/src/const.js';
 
-// export const generateElement = (elements) => {
-//   const randomIndex = getRandomInteger(0, elements.length - 1);
-//   return elements[randomIndex];
-// };
+export const generateElement = (elements) => {
+  const randomIndex = getRandomInteger(0, elements.length - 1);
+  return elements[randomIndex];
+};
 
 const generatePointType = () => {
   const pointTypes = [
@@ -42,35 +42,25 @@ const generateOffers = () => {
 
 const generatePictures = () => Array.from({length: getRandomInteger(1, 3)}, () => ({
   src: `http://picsum.photos/248/152?r=${getRandomInteger(1, 5)}`,
-  description: 'Chamonix parliament building'
 }));
 
-const generateDestination = () => {
-  const destinations = [
-    'Amsterdam',
-    'Chamonix',
-    'Geneva',
-    'Moscow',
-    'London',
-    'Paris'
-  ];
-  return {
-    description: 'Chamonix, is a beautiful city, a true asian pearl, with crowded streets.',
-    name: destinations[getRandomInteger(0, 5)],
-    pictures: generatePictures()
-  };
-};
-
-// const currentDestination = generateElement(DESTINATIONS);
 // const generateDestination = () => {
+//   const destinations = [
+//     'Amsterdam',
+//     'Chamonix',
+//     'Geneva',
+//     'Moscow',
+//     'London',
+//     'Paris'
+//   ];
 //   return {
-//     destination: {
-//       name: currentDestination.name,
-//       description: currentDestination.description,
-//       pictures: generatePictures(),
-//     },
+//     description: 'Chamonix, is a beautiful city, a true asian pearl, with crowded streets.',
+//     name: destinations[getRandomInteger(0, 5)],
+//     pictures: generatePictures()
 //   };
 // };
+
+const currentDestination = generateElement(DESTINATIONS);
 
 const generateTravelDateCheckIn = () => dayjs(new Date()).format('DD MMMM');
 
@@ -78,7 +68,11 @@ const generateTravelDateCheckOut = () => dayjs(new Date()).add(4, 'day').format(
 
 export const generatePoint = () => ({
   id: nanoid(),
-  destination: generateDestination(),
+  destination: {
+    name: currentDestination.name,
+    description: currentDestination.description,
+    pictures: generatePictures(),
+  },
   pointType: generatePointType(),
   dateCheckIn: generateTravelDateCheckIn(),
   dateCheckOut: generateTravelDateCheckOut(),
