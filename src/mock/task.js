@@ -1,6 +1,12 @@
 import dayjs from 'dayjs';
 import {getRandomInteger} from '/utils.js';
 import {nanoid} from 'nanoid';
+// import {DESTINATIONS} from '/src/const.js';
+
+// export const generateElement = (elements) => {
+//   const randomIndex = getRandomInteger(0, elements.length - 1);
+//   return elements[randomIndex];
+// };
 
 const generatePointType = () => {
   const pointTypes = [
@@ -50,10 +56,21 @@ const generateDestination = () => {
   ];
   return {
     description: 'Chamonix, is a beautiful city, a true asian pearl, with crowded streets.',
-    name: destinations[getRandomInteger(0, 2)],
+    name: destinations[getRandomInteger(0, 5)],
     pictures: generatePictures()
   };
 };
+
+// const currentDestination = generateElement(DESTINATIONS);
+// const generateDestination = () => {
+//   return {
+//     destination: {
+//       name: currentDestination.name,
+//       description: currentDestination.description,
+//       pictures: generatePictures(),
+//     },
+//   };
+// };
 
 const generateTravelDateCheckIn = () => dayjs(new Date()).format('DD MMMM');
 
