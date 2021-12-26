@@ -1,24 +1,7 @@
 import dayjs from 'dayjs';
 import SmartView from './smart-view.js';
 // import flatpickr from 'flatpickr';
-import {OFFERS} from '/src/const.js';
-
-const BLANK_POINT = {
-  price: '',
-  cities: '',
-  timeStart: '',
-  timeEnd: '',
-  destination: {
-    name: '',
-    destinationInfo: '',
-    pictures: [],
-  },
-  offer: {
-    type: '',
-    offers: [],
-  },
-  offersList: [],
-};
+import {OFFERS, DESTINATIONS} from '/src/const.js';
 
 const createPictureTemplate = (
   pictures
@@ -53,13 +36,15 @@ const createOfferTemplate = (
       </div>
   </section>`;
 
+const createDropdownCityTemplate = (cities) => `${cities.map(({name}) => `<option value="${name}"></option>`).join('')}`;
+
 const createNewPointTemplate = (point) => {
   const {price, type, timeStart, timeEnd, destination, offers} = point;
-
   const offerTemplate = offers.length ? createOfferTemplate(offers) : '';
   const pictureTemplate = destination.pictures
     ? createPictureTemplate(destination.pictures)
     : '';
+  const cityChoiceTemplate = createDropdownCityTemplate(DESTINATIONS);
   const resetBtnText = price ? 'Delete' : 'Cancel';
   const getCloseEditFormBtn = () => {
     if (!price) {
@@ -138,10 +123,8 @@ const createNewPointTemplate = (point) => {
              ${type}
         </label>
         <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination.name}" list="destination-list-1">
-        <datalist id="destination-list-1">
-          <option value="Amsterdam"></option>
-          <option value="Geneva"></option>
-          <option value="Chamonix"></option>
+        <datalist class="event__city-list" id="destination-list-1">
+          ${cityChoiceTemplate}
         </datalist>
       </div>
 
@@ -181,7 +164,7 @@ export default class NewPointView extends SmartView {
   // #datepickerStartTime = null;
   // #datepickerEndTime = null;
 
-  constructor(point = BLANK_POINT) {
+  constructor(point) {
     super();
     this._data = NewPointView.parsePointToData(point);
     this.#setInnerHandlers();
@@ -215,21 +198,21 @@ export default class NewPointView extends SmartView {
     this.element.querySelector('form').addEventListener('submit', this.#submitHandler);
   };
 
-
-  static parsePointToData = (point) => ({...point});
-
-  static parseDataToPoint = (data) => ({...data});
-
   #setInnerHandlers = () => {
-    this.element.querySelector('.event__input--destination').addEventListener('change', this.#cityChangeHandler);
-    this.element.querySelector('.event__type-list').addEventListener('change', this.#typeChangeHandler);
+    this.element.querySelector('.event__field-group--destination').addEventListener('change', this.#cityChangeHandler);
+    this.element.querySelector('.event__type-group').addEventListener('change', this.#typeChangeHandler);
+    this.element.querySelector('.event__input--destination').addEventListener('input', this.#onCityInput);
   };
 
   #cityChangeHandler = (evt) => {
     evt.preventDefault();
     this.updateData({
-      city: evt.target.value,
-    }, true);
+      destination: {
+        name: evt.target.value,
+        description: this._data.destination.description,
+        pictures: this._data.destination.pictures,
+      }
+    });
   };
 
   #typeChangeHandler = (evt) => {
@@ -238,6 +221,17 @@ export default class NewPointView extends SmartView {
       type: evt.target.value,
       offer: OFFERS.find(({eventType}) => evt.target.value === eventType).offers,
     });
+  };
+
+  #onCityInput = (evt) => {
+    evt.preventDefault();
+    this.updateData({
+      destination: {
+        name: evt.target.value,
+        description: this._data.destination.description,
+        pictures: this._data.destination.pictures,
+      }
+    }, true);
   };
 
   #editHandler = (evt) => {

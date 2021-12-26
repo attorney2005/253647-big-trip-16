@@ -228,18 +228,63 @@ export const TYPES = [
 ];
 
 export const DESTINATIONS = [
-  'Amsterdam',
-  'Geneva',
-  'Chamonix',
-  'Berlin',
-  'Porto',
-  'Barselona',
-  'London',
-  'Oslo',
-  'Bratislava',
-  'Milan',
-  'Ibiza',
+  {
+    name: 'Amsterdam',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    pictures: null,
+  },
+  {
+    name: 'Geneva',
+    description: 'Cras aliquet varius magna, non porta ligula feugiat eget.',
+    pictures: null,
+  },
+  {
+    name: 'Chamonix',
+    description: 'Fusce tristique felis at fermentum pharetra.',
+    pictures: null,
+  },
+  {
+    name: 'Berlin',
+    description: 'Aliquam id orci ut lectus varius viverra.',
+    pictures: null,
+  },
+  {
+    name: 'Moscow',
+    description: 'Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum.',
+    pictures: null,
+  },
+  {
+    name: 'Brest',
+    description: 'Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui.',
+    pictures: null,
+  },
+  {
+    name: 'London',
+    description: 'Sed sed nisi sed augue convallis suscipit in sed felis.',
+    pictures: null,
+  },
+  {
+    name: 'Ontario',
+    description: 'Aliquam erat volutpat.',
+    pictures: null,
+  },
+  {
+    name: 'Washington',
+    description: 'Nunc fermentum tortor ac porta dapibus.',
+    pictures: null,
+  },
+  {
+    name: 'Melbourne',
+    description: 'In rutrum ac purus sit amet tempus.',
+    pictures: null,
+  },
+  {
+    name: 'Eran',
+    description: 'Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.',
+    pictures: null,
+  },
 ];
+
 
 export const DESCRIPTIONS = [
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
