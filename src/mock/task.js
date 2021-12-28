@@ -44,22 +44,6 @@ const generatePictures = () => Array.from({length: getRandomInteger(1, 3)}, () =
   src: `http://picsum.photos/248/152?r=${getRandomInteger(1, 5)}`,
 }));
 
-// const generateDestination = () => {
-//   const destinations = [
-//     'Amsterdam',
-//     'Chamonix',
-//     'Geneva',
-//     'Moscow',
-//     'London',
-//     'Paris'
-//   ];
-//   return {
-//     description: 'Chamonix, is a beautiful city, a true asian pearl, with crowded streets.',
-//     name: destinations[getRandomInteger(0, 5)],
-//     pictures: generatePictures()
-//   };
-// };
-
 const currentDestination = generateElement(DESTINATIONS);
 
 const generateTravelDateCheckIn = () => dayjs(new Date()).format('DD MMMM');

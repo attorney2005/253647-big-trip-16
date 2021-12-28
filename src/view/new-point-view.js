@@ -8,11 +8,11 @@ const createPictureTemplate = (
 ) => `<div class="event__photos-container">
     <div class="event__photos-tape">
       ${pictures
-  .map(
-    ({src}) =>
-      `<img class="event__photo" src='${src}' alt="Event photo"/>`
-  )
-  .join('')}
+    .map(
+      ({src}) =>
+        `<img class="event__photo" src='${src}' alt="Event photo"/>`
+    )
+    .join('')}
     </div>
   </div>`;
 
@@ -22,8 +22,8 @@ const createOfferTemplate = (
     <h3 class="event__section-title  event__section-title--offers">Offers</h3>
     <div class="event__available-offers">
         ${offers
-  .map(
-    ({id, title, price}) => `<div class="event__offer-selector">
+    .map(
+      ({id, title, price}) => `<div class="event__offer-selector">
           <input class="event__offer-checkbox  visually-hidden" id="${id}-1" type="checkbox" name="${id}" checked>
           <label class="event__offer-label" for="${id}-1">
             <span class="event__offer-title">${title}</span>
@@ -31,8 +31,8 @@ const createOfferTemplate = (
             <span class="event__offer-price">${price}</span>
           </label>
         </div>`
-  )
-  .join('')}
+    )
+    .join('')}
       </div>
   </section>`;
 
@@ -40,7 +40,8 @@ const createDropdownCityTemplate = (cities) => `${cities.map(({name}) => `<optio
 
 const createNewPointTemplate = (point) => {
   const {price, type, timeStart, timeEnd, destination, offers} = point;
-  const offerTemplate = offers.length ? createOfferTemplate(offers) : '';
+  const filterOffer = OFFERS.find(({eventType}) => type === eventType);
+  const offerTemplate = offers.length ? createOfferTemplate(filterOffer) : '';
   const pictureTemplate = destination.pictures
     ? createPictureTemplate(destination.pictures)
     : '';
@@ -197,6 +198,7 @@ export default class NewPointView extends SmartView {
     this._callback.editSubmit = callback;
     this.element.querySelector('form').addEventListener('submit', this.#submitHandler);
   };
+
 
   #setInnerHandlers = () => {
     this.element.querySelector('.event__field-group--destination').addEventListener('change', this.#cityChangeHandler);
